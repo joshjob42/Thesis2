@@ -1,0 +1,25 @@
+\section*{Simulated annealing}
+In simulated annealing,\cite{kirkpatrick_optimization_1983} we initialize the vector $\vec{s}$ in a random state. At each time step, we create a trial vector $\vec{s}'$ by flipping one of the spins in $\vec{s}$, selected at random. We accept the trial vector using the Metropolis update rule:\cite{Metropolis} the new state is accepted with probability $1$ if $H(\vec{s}')<H(\vec{s})$ (i.e., lower energy states are accepted deterministically), whereas if $H(\vec{s}')>H(\vec{s})$, we accept the trial vector with probability $\exp{-\beta(H(\vec{s}')-H(\vec{s}))}$ for some inverse temperature $\beta$. After we have attempted $N$ spin flips,
+which amounts to one sweep, we then increase the inverse temperature $\beta$ according to some schedule. At first, $\beta \ll 1$ and the system quickly drifts through the space of possible states. As $\beta$ grows the system settles into lower lying valleys in the energy landscape, and ultimately ceases to evolve entirely in the limit of infinite $\beta$ (zero temperature). 
+
+\section*{Quantum annealing and D-Wave}
+In QA, we interpret the Ising spins $s_i$ in the Ising Hamiltonian~\eqref{eq:HIsing} as Pauli operators $\sigma_i^z$ on the ${i}^{\mathrm{th}}$ qubit in a system of $N$ qubits. QA is inspired by the adiabatic theorem,\cite{Kato:50} namely if the Hamiltonian is interpolated from an initial Hamiltonian $H(t=0)$ to a final Hamiltonian $H(t=t_a)$ sufficiently slowly compared to the minimum ground-to-first-excited state gap of $H(t)$, the system will be in the ground state of $H(t=t_a)$ with high probability, provided it was initialized in the ground state of $H(t=0)$. Thus, one can evolve from a simple, easy to initialize Hamiltonian at $t=0$ to a complicated Hamiltonian with an unknown ground state at $t=t_a$, where $t_a$ is known as the annealing time. In QA, the initial Hamiltonian is a transverse field $H_X = \sum_i \sigma_i^x$, and the final Hamiltonian is the Ising Hamiltonian~\eqref{eq:HIsing}, with the time-dependent Hamiltonian taking the form $H(t) = A(t)H_X+ B(t)H_{\mathrm{Ising}}$, where $A(t)$ is monotonically decreasing to $0$ and $B(t)$ is monotonically increasing from $0$; these functions are known as the annealing schedule. QA can be seen as both a generalization and a restriction of adiabatic quantum computation \cite{Farhi:00} (for a review see \cite{Albash-Lidar:RMP}): as a restriction, QA typically requires the initial Hamiltonian to be a sum of $\sigma^x$s and the final Hamiltonian be diagonal in the computational basis (i.e., a sum of $\sigma^z$ terms), while, as a generalization, it undergoes open-system dynamics and need not remain in the ground state for the entire computation.
+
+ \begin{figure}[hbt]
+ \centering
+  \includegraphics[width=.7\columnwidth]{chapters/Higgs/chimera.pdf}
+  \caption{An $1152$ qubit Chimera graph, partitioned into a $12\times 12$ array of $8$-qubit unit cells, each unit cell being a $K_{4,4}$ bipartite graph. Inactive qubits are marked in red, active qubits in green. There are a total of $1098$ active qubits in the DW processor used in our experiments. Black lines denote active couplers.}
+  \label{fig:chimera}
+\end{figure}
+
+ \begin{figure}[hbt]
+ \centering
+  \includegraphics[width=0.7\columnwidth]{chapters/Higgs/AnnealingSchedule}
+  \caption{Annealing schedule used in our experiments.}
+  \label{fig:annsched}
+  \end{figure}
+
+   \begin{align}
+ 		H_{\mathrm{Ising}} =  \sum_{i<j}^{N} J_{ij} s_i s_j + \sum_{i=1}^{N} h_i s_i .
+		\label{eq:HIsing}
+ \end{align}

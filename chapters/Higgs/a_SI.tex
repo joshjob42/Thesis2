@@ -1,0 +1,437 @@
+% \documentclass[fleqn,10pt]{wlscirep}
+% \usepackage{hyperref}
+% \usepackage{epsfig}
+% \usepackage{bm}
+% \usepackage{graphicx}
+% %\usepackage{subcaption}
+% \usepackage{subfigure}
+% \usepackage{epstopdf}
+% \usepackage{physics}
+% \usepackage{siunitx}
+% \usepackage[super]{nth}
+% \usepackage{colortbl}
+% %\usepackage{polyglossia}
+% %\usepackage{unicode-math}
+% \usepackage{color}
+% \usepackage{fontspec}
+% \usepackage{adjustbox}
+% %\usepackage{subfig}
+% %\usepackage[affil-it]{authblk}
+% %\usepackage{fixltx2e}
+% %\usepackage{dblfloatfix}
+% \usepackage{amsmath}
+% \usepackage{mathtools}
+% \usepackage[left]{lineno}
+% %\usepackage{natbib}
+
+% \newcommand{\onlinecite}[1]{\hspace{-1 ex} \nocite{#1}\citenum{#1}} 
+
+
+
+% \hypersetup{
+%     colorlinks=true,       % false: boxed links; true: colored links
+%     linkcolor=cyan,          % color of internal links
+%     citecolor=magenta,        % color of links to bibliography
+%     filecolor=magenta,      % color of file links
+%     urlcolor=cyan,           % color of external links
+%     runcolor=cyan
+% }
+% \newcommand{\figurewidth}{0.8 \columnwidth}
+% \newcommand{\beqarr}{\begin{eqnarray}}
+% \newcommand{\eeqarr}{\end{eqnarray}}
+% \newcommand{\beq}{\begin{equation}}
+% \newcommand{\eeq}{\end{equation}}
+% \newcommand{\e}{{\text e}}
+% \newcommand{\rmd}{{\text d}}
+% \newcommand{\mc}{\mathcal}
+% \newcommand{\byJJ}[1]{{\textcolor{red}{#1}}}
+% \newcommand{\byDL}[1]{{\textcolor{blue}{#1}}}
+% \newcommand{\byAM}[1]{{\textcolor{green}{#1}}}
+% \newcommand{\byMS}[1]{{\textcolor{orange}{#1}}}
+% \newcommand{\GeV}{\giga\electronvolt}
+% \newcommand{\TeV}{\tera\electronvolt}
+% \newcommand{\ignore}[1]{}
+% \newcommand{\red}[1]{\textcolor{red}{#1}}
+% \newcommand{\DL}[1]{\textcolor{red}{[#1]}}
+
+
+% %\defaultfontfeatures{Ligatures=TeX,Mapping=tex-text} 
+% %\setmainfont[Mapping=tex-text]{Palatino}
+% %\setsansfont[Scale=MatchLowercase,Mapping=tex-text]{Gill Sans}
+% %\setmonofont[Scale=MatchLowercase]{Andale Mono}
+% \usepackage[printwatermark]{xwatermark}
+% \usepackage{xcolor}
+% \usepackage{graphicx}
+% \usepackage{lipsum}
+
+%\newwatermark*[allpages,color=red!50,angle=45,scale=3,xpos=0,ypos=0]{DRAFT}
+
+% \begin{document}
+%  \linenumbers
+%%%% THIS GOES WITH THE LETTER VERSION OF THE MANUSCRIPT -- 
+\section{Supplementary Information for ``Solving a Higgs optimization problem with quantum annealing for machine learning"}
+
+
+% \author[$^{1\circ}$]{Alex Mott}
+% \author[$^2$]{Joshua Job}
+% \author[$^1$]{Jean-Roch Vlimant}
+% \author[$^3$]{Daniel Lidar}
+% \author[$^{1*}$]{Maria Spiropulu}
+% \affil[1]{Department of Physics, California Institute of Technology, Pasadena, 91125, USA }
+% \affil[2]{Department of Physics,
+% and Center for Quantum Information Science \& Technology,
+% University of Southern California, Los Angeles, California 90089, USA}
+% \affil[3]{Departments of Electrical Engineering, Chemistry and Physics,
+% and Center for Quantum Information Science \& Technology,
+% University of Southern California, Los Angeles, California 90089, USA}
+% \affil[{$^\circ$}]{\small{Now at DeepMind}}
+% \affil[*]{\small{smaria@caltech.edu}}
+
+
+% \begin{abstract}
+% We provide additional details in support of "Solving a Higgs optimization problem with quantum annealing for machine learning"
+% \end{abstract}
+
+% \maketitle
+\section{The quantum annealer approach to the Higgs optimization problem}
+
+Our problem, toward which we apply quantum annealing for machine learning (QAML), is that of constructing a binary classifier that can detect the ``signal" of the decay of a Higgs boson into two photons in a ``background'' of noise from other Standard Model processes. The classifiers are trained on a set of simulated collision events 
+ (synthetic data sets) where the signal sample contains events with a Higgs boson and the background sample 
+ contains a cocktail of background physics processes that mimic Higgs events. The classification is  achieved 
+ by exploiting deep correlations in various physical properties of the signal and background events.   
+ Classifiers such as boosted decision trees [e.g.,  XGBoost (XGB)], or deep neural networks (DNN) have seen great 
+ success in many other contexts, from speech and image recognition~\cite{Le:2013}, to marketing, finance and 
+ manufacturing~\cite{BigDataMarketing:2015}. In the high energy physics context there are challenges and limitations 
+ of these  techniques often related to the level of agreement between the synthetic and observed data. Supervised 
+ learning requires an accurately labeled training data set, and the simulation procedure requires calculations of the 
+ matrix elements of the physics processes of interest~\cite{Alwall:2014hca}, modeling of the hadronization of colored 
+ particles~\cite{Sjostrand:2006za} and simulation of the interaction of the final state particles with the detector~\cite{Agostinelli:2002hh}.  
+The complexity of the end-to-end simulation operation is encapsulated in the uncertainties associated with the level of agreement with the observations.
+
+The binary classifier proposed and studied in this work, is trained with a ``quantum annealing for machine learning" (QAML) algorithm \cite{Neven1,Pudenz:2013kx}   and takes  the form of a  linear neural network (LNN) that relies on explicitly linearized  correlations. This  reduces sensitivity to errors in the model of  the detector, and due to the binary weights  it guards against overtraining.  In this model it is simple to control and correct the correlations  between the kinematical observables in the Monte Carlo simulations. Additionally the model provides a straightforward interpretation  of the criteria used to classify the events. This comes at the price of a provably NP-hard training problem, with a training time  that grows exponentially with the number of variables.  This is a price sometimes worth paying in return for robustness in the presence of label noise, a fact that has become increasingly recognized in the machine learning community \cite{Long:2010fj,Manwani:2013qv,ICML2012Denchev_461}. 
+
+Heuristic optimization techniques such as classical simulated annealing (SA)~\cite{kirkpatrick_optimization_1983,katzgraber:06a} and quantum annealing (QA)~\cite{kadowaki_quantum_1998,RevModPhys.80.1061} may reduce the training time sufficiently to solve problems of practical  interest with this linear model.  QA and the closely related quantum adiabatic algorithm,\cite{farhi_quantum_2001} hold the potential for significant improvements in performance over classical techniques, though  the delineation of the improvement boundary remains an active area of research~\cite{Albash-Lidar:RMP}. Here we use both QA and SA to train a classifier and examine its performance compared to traditional methods. 
+
+To implement QA we use a programmable quantum annealer\cite{Kaminsky:2004fk} built by D-Wave Systems Inc.,\cite{Johnson:2010ys,Bunyk:2014hb} the D-Wave Two X (DW) model housed at the University of Southern California's Information Sciences Institute, comprising $1098$ superconducting flux qubits. Such QA devices have been employed to study, e.g., 
+graph isomorphism,\cite{Vinci:2014fk} Bayesian network structure,\cite{OGorman:2015qf} operational planning,\cite{Rieffel:2015aa} DNNs,\cite{Adachi:2015qe} quantum Boltzmann machines \cite{Amin:2016,Benedetti:2016bs,Benedetti:2016oz}, and tree cover detection in aerial imagery \cite{Boyda:2017aa}.  Both the quantumness\cite{q108,SSSV,DWave-entanglement,q-sig2,Boixo:2014yu} and speedup\cite{speedup,Hen:2015rt,King:2015zr,Katzgraber:2015gf} in these devices are intensely scrutinized topics of ongoing research.  
+
+\section{DNN and XGB optimization procedure}
+
+We benchmark the performance of QAML against DNN and XGB.  
+
+We train a DNN using Keras \cite{keras} with the Theano backend,\cite{2016arXiv160502688full} a standard tool in deep learning and increasingly popular in high energy physics. Our network has two fully connected hidden layers with $1000$ nodes each. The model is optimized using the Adam algorithm \cite{DBLP:journals/corr/KingmaB14} with a learning rate of $0.001$ and a mini-batch size of $10$. We find that network performance is not  affected by small changes in the number of nodes or the initial guesses for the weights. The model hyperparameters, regularization terms, and optimization parameters for our deep neural net are selected using the {\it Spearmint} Bayesian optimization software \cite{1206.2944S,JasperSnoek}. Early stopping is used (with patience parameter $10$) to avoid overtraining and have sufficient generalization. 
+
+We  also train an ensemble of boosted decision trees using XGB \cite{xgboost}
+ %https:/	/github.com/dmlc/xgboost%
+with a maximum depth of $10$, a learning rate of $0.3$, and L2-regularization parameter $\lambda=2000$. 
+
+To train and optimize XGB, we use $100$ rounds of training and start with the default choices for the various parameters. We  evaluate values of the learning rate\\ 
+\noindent $\eta\in\{0.001,0.002,0.003,0.005,0.008,0.01,0.02,0.03,0.05,0.08,0.1,0.2,0.3,0.5,0.8\}$
+at tree depths of $5$, $8$, $10$, $12$, $15$, and $20$. Some of these parameters give small improvements in AUC over the defaults at value of the L2-regularization parameter $\lambda=1$. Far larger improvements are found when $\lambda$ is increased.  Hence  we hold the other parameters fixed and  evaluate $\lambda\in\{5,10,20,50,100,200,500,1000,1500,1800,2000,2200,2500\}$, finding the approximate optimum AUC on the test set at $2000$. Testing again, the tree depth and $\eta$ are  found to have minimal effect on the AUC (significantly smaller than the error), and $\eta=0.3$ and tree depth $10$ are  chosen as the approximate optimum. 
+
+We note that the DNN and XGB settings are selected so as to prevent overtraining. 
+
+
+
+\section{Mapping weak classifier selection to the Ising problem}
+In this section we closely follow Ref.~[\onlinecite{Pudenz:2013kx}], with slight changes of notation. Let $V$ be the event space, consisting of vectors $\{\vec{x}\}$ that are either signal or background. We define a weak classifier $c_i(\vec{x}):V\mapsto \mathbb{R}$, $i=1,\dots N$, as classifying event $\vec{x}$ as signal (background) if $c_i(\vec{x})>0$ ($c_i(\vec{x})<0$). We normalize each weak classifier so that $|c_i|\leq 1/N$. We introduce a binary weights vector $\vec{w} \in \{0,1\}^N$ and construct a strong classifier $R_{\vec{w}}(\vec{x}) = \sum_i w_i c_i(\vec{x})\in[-{\norm{\vec{w}}}/{N},{\norm{\vec{w}}}/{N}]$. The event $\vec{x}$ is correspondingly classified as signal (background) if $R_{\vec{w}}(\vec{x})>0$ ($R_{\vec{w}}(\vec{x})<0$). The weights $\vec{w}$ are to be determined; they are the target of the solution of the Ising problem.
+
+Let $\mc{T} = \{\vec{x_\tau}, y_\tau\}$ denote a given set of training events, where $\vec{x_\tau}$ is an event vector collecting the values of each of the variables we use, and $y_\tau =\pm 1$ is a binary label for whether $\vec{x_\tau}$ is signal ($+1$) or background ($-1$). Let $Q_{\vec{w}}(\vec{x}) = \mathrm{sign}[R_{\vec{w}}(\vec{x})]$, so that $Q_{\vec{w}}(\vec{x})=+1$ ($-1$) denotes signal (background) event classification. Thus $y_\tau Q_{\vec{w}}(\vec{x}_{\tau})=+1$ if $\vec{x}_{\tau}$ is correctly classified as signal or background ($y_\tau$ and $Q_{\vec{w}}(\vec{x}_{\tau})$ agree), and $y_\tau Q_{\vec{w}}(\vec{x}_{\tau})=-1$ if $\vec{x}_{\tau}$ is incorrectly classified ($y_\tau$ and $Q_{\vec{w}}(\vec{x}_{\tau})$ disagree). The cost function $L(\vec{w}) = \sum_{\tau} [1-y_\tau Q_{\vec{w}}(\vec{x}_{\tau})]/2$ thus counts the number of incorrectly classified training events, and minimizing it over all possible weight vectors returns the optimal set of weights, and hence the optimal strong classifier given the training set $\mc{T}$. To avoid overtraining and economize on the number of weak classifiers used, we can introduce a penalty term proportional to the number of weights, i.e., $\lambda \|\vec{w}\|$, where $\lambda>0$ is the penalty strength. Thus the optimal set of weights for given $\lambda$ is
+\beq
+\vec{w}_{\mathrm{opt}} = \mathrm{argmin}_{\{\vec{w}\}}\left[ L(\vec{w}) + \lambda \|\vec{w}\| \right] .
+\label{eq:full}
+\eeq
+This optimization problem cannot be directly mapped onto a quantum annealer, due to the appearance of the sign function. 
+Instead we next introduce a relaxation to a quadratic form that is implementable on the current generation of D-Wave devices. Namely, using the training set we form the vector of strong classifier results $\vec{R}_{\vec{w}} = \{R_{\vec{w}}(\vec{x_\tau})\}_{\tau=1}^{|\mc{T}|}$, the Euclidean distance measure $\delta(\vec{w})=\|\vec{y}-\vec{R}_{\vec{w}}\|^2$ between the strong classifier and the set of training labels, and replace Eq.~\eqref{eq:full} by
+\beq
+\vec{w}_{\min} = \mathrm{argmin}_{\{\vec{w}\}} \delta(\vec{w}) .
+\eeq
+Finding $\vec{w}_{\mathrm{opt}}$ in this way is equivalent to solving a quadratic unconstrained binary optimization (QUBO) problem:
+\beq
+\vec{w}_{\min}  = \mathrm{argmin}_{\{\vec{w}\}} 
+ 		\left[\sum_\tau R_{\vec{w}}(\vec{x_\tau})^2-2y_\tau R_{\vec{w}}(\vec{x_\tau}) + y_\tau^2 \right]
+		=  \mathrm{argmin}_{\{\vec{w}\}} \left[\sum_\tau \big(\sum_{i,j} w_i w_j c_i(\vec{x_\tau}) c_j(\vec{x_\tau}) - 2 y_\tau \sum_{i} w_i c_i(\vec{x_\tau})\big) + \abs{\mc{T}} \right] .
+\eeq
+Regrouping the terms in the sum and dropping the constant we find:
+\beq
+\vec{w}_{\min}  = \mathrm{argmin}_{\{\vec{w}\}} 
+ 		\left[ \sum_{i,j} w_i w_j \left(\sum_\tau c_i(\vec{x_\tau})c_j(\vec{x_\tau})\right)  -2\sum_i w_i \left(\sum_\tau c_i(\vec{x_\tau})y_\tau\right) \right] =  \mathrm{argmin}_{\{\vec{w}\}} \left[ \sum_{i,j} C_{ij} w_i w_j - 2\sum_i C_i w_i \right] ,
+		\label{eq:wopt1}
+\eeq
+where $C_{ij} = \sum_\tau c_i(\vec{x_\tau})c_j(\vec{x_\tau}) = C_{ji}$ and $C_i = \sum_\tau c_i(\vec{x_\tau}) y_\tau$. 
+
+
+This has a tendency to overtrain. The reason is that $|R_{\vec{w}}(\vec{x_\tau})| \leq {\norm{\vec{w}}}/{N}$, so that $|y_\tau-R_{\vec{w}}(\vec{x_\tau})|^2 \geq (1-\norm{\vec{w}}/{N})^2$, and hence $\delta(\vec{w}) = \sum_\tau |y_\tau-R_{\vec{w}}(\vec{x}_\tau)|^2 \geq |\mc{T}| (1-{\norm{\vec{w}}}/{N})^2$. To minimize $\delta(\vec{w})$ the solution will be biased toward making $\norm{\vec{w}}$ as large as possible, i.e., to include as many weak classifiers as possible. To counteract this overtraining tendency we add a penalty term that makes the distance larger in proportion to $\norm{\vec{w}}$, i.e., $\lambda\norm{\vec{w}}$ with $\lambda>0$, just as in Eq.~\eqref{eq:full}. Thus we replace Eq.~\eqref{eq:wopt1} by
+\beq
+\vec{w}_{\min}  = \mathrm{argmin}_{\{\vec{w}\}} \left[ \sum_{i,j} C_{ij} w_i w_j + \sum_i (\lambda-2C_i) w_i \right] ,
+\label{eq:wopt2}
+\eeq
+The last step is to convert this QUBO into an Ising problem by changing the binary $w_i$ into spin variables $s_i=\pm 1$, i.e., $w_i= (s_i+1)/2$, resulting in:
+\beq
+\vec{s}_{\min}  = \mathrm{argmin}_{\{\vec{s}\}} \left[ \frac{1}{4}\sum_{i,j} C_{ij} s_i s_j +\frac{1}{2}\sum_{i,j}C_{ij}s_i + \frac{1}{2}\sum_i (\lambda-2C_i) s_i \right] ,
+\eeq
+where we use the symmetry of $C_{ij}$ to write the middle term in the second line, and we drop the constant terms $\frac{1}{4}\sum_{i,j} C_{ij}$ and $\frac{1}{2}\sum_i (\lambda-2C_i)$.
+We now define the couplings $J_{ij} = \frac{1}{4} C_{ij}$ and the local fields $h_i=\frac{1}{2}\left(\lambda-2C_i+\sum_{j}C_{ij} \right)$. The optimization problem is then equivalent to finding the ground state 
+$\vec{s}_{\min} = \mathrm{argmin}_{\{\vec{s}\}} H$ of the Ising Hamiltonian
+ \begin{align}
+ 		H_{\mathrm{Ising}} =  \sum_{i<j}^{N} J_{ij} s_i s_j + \sum_{i=1}^{N} h_i s_i .
+		\label{eq:HIsing}
+ \end{align}
+In the main text and hereafter, when we refer to $\lambda$ it is measured in units of $\max_i(C_i)$ (e.g., $\lambda=0.05$ is shorthand for $\lambda=0.05\max_i(C_i)$).
+ 
+ 
+
+
+\section{Robustness of QAML to MCMC mismodelling}
+Two essential steps are involved in the construction of the weak classifiers in our approach. First, we remove information about the tails of the distributions of each variable and use the corresponding truncated single-variable distributions to construct weak classifiers. Second, since the single-variable classifiers do not include any correlations between variables, we include additional weak classifiers built from the products/ratios of the variables, where after taking the products/ratios we again apply the same truncation and remove tails. That is, our weak classifiers account only for one and two-point correlations and ignore all higher order correlations in the kinematic variable distribution.
+The particular truncation choice to define the weak classifiers as a piecewise linear function defined only by a central percentile (30th or 70th, chosen during construction) and two percentiles in the tails (10th and 90th) means that the MC simulations only have to approximately estimate those four percentiles of the marginals and the correlations between the variables. Any MC simulation which is unable to approximate the 10th, 30th, 70th, and 90th percentiles of the marginal distribution for each dimension of the dataset and the products between them would surely not be considered acceptably similar to the target distribution for use in HEP data analyses, as it is effectively guaranteed to be wrong in the higher order correlations and thus in its approximation of the true distribution. Meanwhile, typical machine learning approaches for this problem use arbitrary relationships across the entire training dataset, including the tails and high-order correlations, and so are likely to be more sensitive to any mismodelling.
+
+
+\section{Receiver operating characteristic (ROC)}
+Any classifier may be characterized by two numbers: the true positive and true negative rates, in our case corresponding to the fraction of events successfully classified as signal or background, respectively. Since our classifiers all return floating point values in $[-1,1]$, to construct a binary classifier we introduce a cut in this range, above and below which we classify as signal and background, respectively. Since this cut is a free parameter, we vary it across the entire range and plot the resulting parametric curve of signal acceptance (true positive, $\epsilon_S$) and background rejection (true negative, $r_B$), producing a receiver operating characteristic (ROC) curve \cite{Hanley:1982}. 
+
+More explicitly, consider a labeled set of validation events, $\mc{V}=\{\vec{x_v},y_v\}$, with $y_v=0$ or $1$ if $\vec{x_v}$ is background or signal, respectively, and a strong classifier $R_{\vec{w}}(\vec{x})$. The latter is constructed from a given set of weak classifiers and a vector of weights $\vec{w}$ previously obtained from training over a training set $\mc{T}$. The strong classifier outputs a real number $R_{\vec{w}}(\vec{x_v})=\sum_i w_i c_i(\vec{x_v})$. To complete the classifier, one introduces a cut, $O_c$, such that we classify event $\vec{x_v}$ as signal if $R_{\vec{w}}(\vec{x_v})>O_c$ and background if $R_{\vec{w}}(\vec{x_v})<O_c$. If we evaluate the strong classifier on each of the events in our validation set $\mc{V}$, we obtain a binary vector of classifications, $\vec{C}=\{C_v\}$, with entries $0$ denoting classification as background and $1$ denoting classification as signal. By comparing $C_v$ to $y_v$ for all $v$ we can then evaluate the fraction of the events which are correctly classified as background, called the true negative rate or ``background rejection'' $r_B$ (equal to the number of times $C_v=y_v=0$, divided by the total number of actual background events
+%
+%, i.e., $(\abs{B}-\norm{\vec{C}_B}_1)/(\abs{B})$
+), 
+and the fraction of events correctly classified as signal or ``signal efficiency'' $\epsilon_S$ (equal to the number of times $C_v=y_v=1$, divided by the total number of actual signal events%
+%, i.e., $\norm{\vec{C}_S}_1/\abs{S}$
+). 
+For a given strong classifier, these values will be a function of the cutoff $O_c$. Plotting $r_B(O_c)$ against $\epsilon_S(O_c)$ yields a parametric curve, dubbed the ``receiver operator characteristic'' (ROC) curve, as shown in Fig.~\ref{fig:ROC_example}. Note that the cutoffs are trivial to adjust while all the computational effort goes into forming the networks, so one can vary $O_c$ essentially for free to tune the performance of the network to suit one's purposes. 
+
+In other words, for a given strong classifier, i.e., solution/state, we can evaluate its output as a floating point number on each of the values in our data set, and for any value of a cut on $[-1,1]$ this results in a single classification of the test data, $\vec{C}$. One can then evaluate the true positive and true negative rates by computing $\vec{C_v}\cdot\vec{y_k}$ where $k\in [S,B]$ (signal, background), $y_k^i=1$ if datum $i$ is in ensemble $k$ and is $0$ otherwise. 
+
+\begin{figure}
+\centering
+\begin{subfigure}
+  \centering
+  \includegraphics[width=0.49\textwidth]{ROC_example_100DWDNN}
+\end{subfigure}%
+\begin{subfigure}
+  \centering
+\includegraphics[width=0.49\textwidth]{ROC_example_100SAXGB}\end{subfigure}
+  \caption{The ROC curves for the annealer-trained networks (DW and SA) at $f=0.05$, DNN, and XGB. Error bars are defined by the variation over the training sets and statistical error. Both panels show all four ROC curves. Panel (a) [(b)] includes $1\sigma$ error bars only for DW and DNN [SA and XGB], in light blue and pale yellow, respectively. Results shown are for the $36$ variable networks at $\lambda=0.05$ trained on $100$ events. The annealer trained networks have a larger area under the ROC curve}
+ \label{fig:ROC_example}
+  \end{figure}
+
+  
+\begin{figure}[hbb]
+ \centering
+  \includegraphics[width=0.7\columnwidth]{aucs_lambda}
+  \caption{A reproduction of Fig.~3
+  %\ref{fig:aucs} 
+  from the main text, now including the optimal strong classifier found by SA at $f=0$ 
+  for various values of the regularization parameter $\lambda=0.,0.1,0.2$. We find that this parameter has negligible impact on the shape of the AUROC curve, and that performance for SA always saturates at $\approx 0.64$, with an advantage for QAML (DW) and SA over XGB and DNNs for small training sizes.}
+  \label{fig:aucs_lambda}
+\end{figure}  
+
+When we take $f>0$ and accept excited states with energy $E<(1-f)E_{GS}$  as ``successes'', we have a set of networks (labeled by $f$) for each training set. We simply take the supremum over the $f$-labeled set of values of $r_B$ at each value of $\epsilon_S$, to form the ROC curve for the classifier formed by pasting together different classifiers over various ranges of $\epsilon_S$. 
+
+To estimate the error due to limited test sample statistics, we reweight each element of the test set with weights $\vec{w}$ drawn from a Poisson distribution with mean $1$, effectively computing $ \sum_i w_i p_i y_k^i$. The weights on the elements of the test set are determined for all elements at once and we  evaluate all strong classifiers using the same weights. For a single weight vector, we evaluate many values of the cut, and use linear interpolation to evaluate it in steps of 0.01 in the region $[0,1]$. This gives us the true negative rate as a function of the true positive rate for a single weighting corresponding  to a single estimated ROC curve.  When constructing a composite classifier from multiple states, we are identifying regions of signal efficiency in which one should use one of the states rather than the others, namely, we take the maximum background rejection rate over the states for each value of signal efficiency. 
+
+Repeating for many reweightings we get many ROC curves all of which are consistent with our data, and thus the standard deviation across weights on a single training set at each value of signal efficiency serves as an estimate of the statistical uncertainty in our ROC curves.
+
+To estimate variation due to the choice of the training set  towards  reproductions of the procedure and results, for a given training size we generate multiple disjoint training sets and use the standard deviation in mean performance across training sets as our estimate of the error on the model resulting from the particular choice of training set. When we compute the difference between two ROCs or AUROCs, we hold the training set and weight vector fixed, take the difference, and then perform statistics over the weights and training sets in the same manner as above. Errors in the AUROC were estimated similarly, taking the AUROC for each Poisson weight vector and training set (fold) instead of $r_B(\epsilon_S)$. This is the procedure leading to Fig.~3 in the main text. An example of the ROC curves is given in Fig.~\ref{fig:ROC_example}. At the scale of that plot, it is virtually impossible to tell the detailed differences between SA and DW or the various values of $f$, so we use plots of differences of AUCs to extract more detailed information about the ROC curves. This leads to Fig.~4 in the main text. Additional difference plots are given in Sec.~\ref{sec:ROC-diffs} below.
+  
+\section{Quantum annealing and D-Wave}
+In QA, we interpret the Ising spins $s_i$ in the Ising Hamiltonian~\eqref{eq:HIsing} as Pauli operators $\sigma_i^z$ on the ${i}^{\mathrm{th}}$ qubit in a system of $N$ qubits. QA is inspired by the adiabatic theorem,\cite{Kato:50} namely if the Hamiltonian is interpolated from an initial Hamiltonian $H(t=0)$ to a final Hamiltonian $H(t=t_a)$ sufficiently slowly compared to the minimum ground-to-first-excited state gap of $H(t)$, the system will be in the ground state of $H(t=t_a)$ with high probability, provided it was initialized in the ground state of $H(t=0)$. Thus, one can evolve from a simple, easy to initialize Hamiltonian at $t=0$ to a complicated Hamiltonian with an unknown ground state at $t=t_a$, where $t_a$ is known as the annealing time. In QA, the initial Hamiltonian is a transverse field $H_X = \sum_i \sigma_i^x$, and the final Hamiltonian is the Ising Hamiltonian~\eqref{eq:HIsing}, with the time-dependent Hamiltonian taking the form $H(t) = A(t)H_X+ B(t)H_{\mathrm{Ising}}$, where $A(t)$ is monotonically decreasing to $0$ and $B(t)$ is monotonically increasing from $0$; these functions are known as the annealing schedule. QA can be seen as both a generalization and a restriction of adiabatic quantum computation \cite{Farhi:00} (for a review see \cite{Albash-Lidar:RMP}): as a restriction, QA typically requires the initial Hamiltonian to be a sum of $\sigma^x$s and the final Hamiltonian be diagonal in the computational basis (i.e., a sum of $\sigma^z$ terms), while, as a generalization, it undergoes open-system dynamics and need not remain in the ground state for the entire computation.
+  
+Current and near-generation quantum annealers are naturally run in a batch mode in which one draws many samples from a single Hamiltonian. Repeated draws for QA are  fast. The DW averages approximately $5000$ samples per second under optimal conditions. We take advantage of this by keeping all the trial strong classifiers returned and not restricting to the one with minimum energy.\footnote{The energy is effectively a function of error on the training set of the weak classifiers, hence is distinct from the measures used to directly judge classifier performance, such as the area under the ROC curve.}The DW has $1098$ superconducting Josephson junction flux qubits arranged into a grid, with couplers between the qubits in the form shown in Fig.~\ref{fig:chimera}, known as the Chimera graph. The annealing schedule used in the DW processor is given in Fig.~\ref{fig:annsched}. The  Chimera graph is not fully connected, a recognized  limitation  as the Ising Hamiltonian~\eqref{eq:HIsing} is fully connected, in general. To address this, we perform a {\it minor embedding operation}~\cite{Choi1,Choi2}. Minor embedding is the process whereby we map a single logical qubit in $H_{\mathrm{Ising}}$ into a physical ferromagnetic ($J_{ij}=-1$) chain of qubits on DW. 
+For each instance we use a heuristic embedding found via the D-Wave API, that is as regular and space-efficient as possible for our problem sizes. 
+ 
+ \begin{figure}[hbt]
+ \centering
+  \includegraphics[width=.7\columnwidth]{chimera.pdf}
+  \caption{An $1152$ qubit Chimera graph, partitioned into a $12\times 12$ array of $8$-qubit unit cells, each unit cell being a $K_{4,4}$ bipartite graph. Inactive qubits are marked in red, active qubits in green. There are a total of $1098$ active qubits in the DW processor used in our experiments. Black lines denote active couplers.}
+  \label{fig:chimera}
+\end{figure}
+
+ \begin{figure}[hbt]
+ \centering
+  \includegraphics[width=0.7\columnwidth]{AnnealingSchedule}
+  \caption{Annealing schedule used in our experiments.}
+  \label{fig:annsched}
+  \end{figure}
+ 
+Given a minor embedding map of logical qubits into a chain of physical qubits, we divide the local fields $h_i$ equally among all the qubits making up the chain for logical qubit $i$, and divide $J_{ij}$ equally among all the physical couplings between the chains making up logical qubits $i$ and $j$. After this procedure, there remains a final degree of freedom: the chain strength $J_F$. If the strength of the couplers in the ferromagnetic chains making up logical qubits is defined to be $1$, then the maximum magnitude of any other coupler is $\max\big(\max_i(\{\abs{h_i}\}),\max_{i,j}(\{\abs{J_{ij}}\})\big) = \frac{1}{J_F}$. There is an optimal value of $J_F$, generally. This is due to a competition between the chain needing to behave as a single large qubit and the problem Hamiltonian needing to drive the dynamics\cite{Venturelli:2014nx}. If $J_F$ is very large, the chains will ``freeze out'' long before the logical problem, i.e., the chains will be far stronger than the problem early on, and the transverse field terms will be unable to induce the large, multi-qubit flipping events necessary to explore the logical problem space. Similarly, if $J_F$ is very weak, the chains will be broken (i.e., develop a kink or domain wall) by tension induced by the problem, or by thermal excitations, and so the system will generally not find very good solutions. Ideally, one wants the chains and the logical problem to freeze at the same time, so that at the critical moment in the evolution both constraints act simultaneously to determine the dynamics. For the results shown here, we used $J_F=6$ with an annealing time $t_a=5\mu$s. To deal with broken chains, we use majority vote on the chain with a coin-toss tie-breaker for even length chains.  Detailed analysis of the performance of this strategy in the context of error correction can be found in the literature~\cite{Vinci:2015jt,Mishra:2015}.
+
+Figure~\ref{fig:average_energy_by_J} shows the average minimum energy returned by the DW, rescaled by the training size (to remove a linear scaling), as a function of the chain strength and training size. We see that the smallest training size ($N=100$) has a smaller average minimum energy than the rest of the training sizes, and that there is only a very slight downward tendency as the chain strength $J_F$ increases for the larger training sizes. 
+
+Figure~\ref{fig:minimum_fractional_residual_energy} plots the fractional deviation of the minimum energy returned by the DW relative to the true ground state energy, averaged over the training sets. While the DW's minimum energy returned approaches the true ground state, it seems to converge to $\approx 5\%$ (i.e. $f\approx0.05$) above the ground state as we increase the chain strength,  for all training sizes $\geq 1000$. In this case, we were not able to find the optimal chain strength in a reasonable range of chain strengths, and instead simply took the best we found, $J_F=6$. As discussed in Sec.~\ref{app:ICE}, the DW processor suffers from noise sources on the couplers and thermal fluctuations, and it seems that this poses significant challenges for the performance of the quantum annealer. It is possible that even larger chain strengths may resolve the issue, but given the convergence visible in Fig.~\ref{fig:minimum_fractional_residual_energy}, it seems likely that $J_F=6$ is already near the optimum.
+
+
+  \begin{figure}[hbb]
+ \centering
+  \includegraphics[width=0.7\columnwidth]{rescaled_average_return_energy_by_J}
+  \caption{A plot of the minimum energy returned by the DW as a function of chain strength, rescaled by the number of training samples. I.e., for training size $N$, we plot $E_m/N$ for minimum return energy $E_m$, where $N$ is given in the legend.}
+  \label{fig:average_energy_by_J}
+\end{figure}
+ 
+ \begin{figure}[hbb]
+ \centering
+  \includegraphics[width=0.7\columnwidth]{minimum_fractional_residual_energy_by_J}
+  \caption{Plot of $(E_m-E_0)/E_0$ for minimum energy returned $E_m$ and true ground state energy $E_0$, i.e., the minimum fractional reserve energy, averaged over the training sets, for each size and chain strength.}
+  \label{fig:minimum_fractional_residual_energy}
+\end{figure}
+
+ 
+\section{Simulated annealing}
+In simulated annealing,\cite{kirkpatrick_optimization_1983} we initialize the vector $\vec{s}$ in a random state. At each time step, we create a trial vector $\vec{s}'$ by flipping one of the spins in $\vec{s}$, selected at random. We accept the trial vector using the Metropolis update rule:\cite{Metropolis} the new state is accepted with probability $1$ if $H(\vec{s}')<H(\vec{s})$ (i.e., lower energy states are accepted deterministically), whereas if $H(\vec{s}')>H(\vec{s})$, we accept the trial vector with probability $\exp{-\beta(H(\vec{s}')-H(\vec{s}))}$ for some inverse temperature $\beta$. After we have attempted $N$ spin flips,
+which amounts to one sweep, we then increase the inverse temperature $\beta$ according to some schedule. At first, $\beta \ll 1$ and the system quickly drifts through the space of possible states. As $\beta$ grows the system settles into lower lying valleys in the energy landscape, and ultimately ceases to evolve entirely in the limit of infinite $\beta$ (zero temperature). Our simulations used $\beta_{\mathrm{init}}=0.1$ and $\beta_{\mathrm{final}} = 5$, and used a linear annealing schedule (i.e., if we perform $S$ sweeps, we increase $\beta$ after each sweep by $\frac{\beta_{\mathrm{final}}-\beta_{\mathrm{init}}}{S}$). These parameters have generally performed well in other studies.\cite{Hen:2015rt} All SA data in the main text and presented here is at 1000 sweeps, however we also tested SA at 100 sweeps, and found a negligible difference in overall performance, as seen in Fig.~\ref{fig:SAmSA100droc}, where the integrated difference of the ROC curves is found to be statistically indistinguishable from $0$.
+
+ \begin{figure}[hbb]
+ \centering
+  \includegraphics[width=0.7\columnwidth]{SA--SA100_auc}
+  \caption{The integral of the difference of the ROC curves, i.e., the area between the ROC curves, for SA and SA100 for various thresholds of the energy and training size. SA at $100$ and $1000$ sweeps are effectively identical by this benchmark.}
+  \label{fig:SAmSA100droc}
+\end{figure}
+
+ 
+\section{Effect of noise on processor}
+\label{app:ICE}
+Internal control error (ICE) on the current generation of D-Wave processors is effectively modeled as a Gaussian centered on the problem-specified value of each coupler and local field, with standard deviation $0.025$, i.e., a coupler $J_{ij}$ is realized as a value drawn from the distribution $N(J_{ij},0.025)$ when one programs a Hamiltonian. Figure~\ref{fig:noisyJ} contains a histogram of the ideal values of the embedded couplers corresponding to connections between logical qubits across all $20$ problem instances of $36$ variables at 20000 training events. One can see that the ideal distribution has some structure, with two peaks. However, if one resamples values from the Gaussian distribution induced by ICE, one finds that many of the features are washed out completely. This suggests that the explanation for the flattening out of the performance of QA as a function of training size (recall Fig.~3 in the main text) is due to this noise issue. Thus we investigate this next.
+
+Figures~\ref{fig:precision_un}-\ref{fig:precision2} tell the story of the scaling of the couplers with training size. Figure~\ref{fig:precision_un} shows linear scaling of the maximum Hamiltonian coefficient with training size. 
+We observe wider variation at the smallest training sizes, but overall the precision scales linearly with training size. This is confirmed in Figure \ref{fig:precision}, which shows the maximum coefficient normalized by the training size. Since this value is constant for sufficiently large training sizes, the maximum value scales linearly with size. 
+%
+At first glance, this indeed suggests an explanation for why the performance of QA using the DW levels off as a function of training size: the coupling values pass $20$ (half the scale of the errors which is $\approx 1/0.025=40$). However, absolute numbers are not necessarily informative, and  Fig.~\ref{fig:precision2} dispels this explanation.
+
+Figure~\ref{fig:precision2} shows the ratio of the median coefficient to the maximum coefficient, thereby showing the scale of \emph{typical} Hamiltonian coefficients on the DW prior to rescaling for chain strength (which for the most of the data here would reduce the magnitude by a further factor of $6$). 
+ 
+Since all the different types of coefficient ratios are constant with system size, we have effectively no scaling with training size of the precision of the couplers. This means that the scaling of precision with training size cannot explain the saturation of performance with increasing training size.
+
+
+However, the magnitudes here are quite small, and so once one accounts for rescaling the energies, typical couplers are expected to be subject to a significant amount of noise, even causing them to change sign. This effect likely explains, at least in part, the difficulties the DW has in finding the true ground state, as discussed above and seen in Fig.~\ref{fig:minimum_fractional_residual_energy}, where even at the largest chain strength we still find that the DW's typical minimum energy is $\sim 5\%$ above the ground state energy.
+
+
+\begin{figure}
+\centering
+\begin{subfigure}
+  \centering
+  \includegraphics[width=.8\linewidth]{noisy_couplers_h}
+\end{subfigure}%
+\begin{subfigure}
+  \centering
+  \includegraphics[width=.8\linewidth]{noisy_couplers_J}
+\end{subfigure}
+\caption{Histograms for the true (peaked) distribution of local biases and couplers, and the same distribution subject to point-wise Gaussian noise with zero mean and standard deviation $0.025$, which is approximately the magnitude of errors on the DW couplers.}
+  \label{fig:noisyJ}
+  \end{figure}
+
+  \begin{figure}[hbb]
+ \centering
+  \includegraphics[width=0.7\columnwidth]{precision_by_training_size_and_fold_unnormalized}
+  \caption{The maximum local bias and coupler term in the Hamiltonian across training sizes and training sets.}
+  \label{fig:precision_un}
+\end{figure}
+ 
+ \begin{figure}[hbb]
+ \centering
+  \includegraphics[width=0.7\columnwidth]{precision_by_training_size_and_fold}
+  \caption{The maximum local bias and coupler term in the Hamiltonian across training sizes and training sets, normalized by the number of events in the training set. This makes it clear that the scaling of the Hamiltonian coefficients is linear in the training size, for training sizes $\geq 5000$.}
+  \label{fig:precision}
+\end{figure}
+
+ \begin{figure}[hbb]
+ \centering
+  \includegraphics[width=0.7\columnwidth]{precision_by_training_size_and_fold_med_to_max}
+  \caption{The ratio of the median coefficient by the maximum coefficient for the non-zero local biases, couplers, and both taken together. 
+}
+  \label{fig:precision2}
+\end{figure}
+
+
+\section{Sensitivity to variation of the parameters of weak classifier construction}
+When constructing the weak classifiers, we choose to define $v_{\text{cut}}$ as the $70$th percentile of the signal distribution. This choice is arbitrary. To test the  effect of this value  on the classifier performance we use  identical training sets and values of both $60\%$ and $80\%$ and compare  them to our primary estimate of $70\%$. The results for both the minimum energy returned ($f=0$) and $f=0.05$ for each are shown in Fig.~\ref{fig:droc_vcut6070}.
+
+Note that every training set has the same ground state configuration at $70\%$ and $80\%$. The ROCs and AUROC are  then invariant  across a wide range of $v_{\text{cut}}$ values. 
+
+Figure~\ref{fig:aucs_lambda} reproduces Fig.~3 
+from the main text, but
+also shows the AUROC for SA's optimal classifier (by energy) for various values of the regularization parameter $\lambda$. We find no significant variation, with the major features of SA being stable, namely the advantage at small training size and the saturation at around an AUROC of $\approx 0.64$.
+
+\begin{figure}[h]
+\centering
+\begin{subfigure}\centering\includegraphics[width=\textwidth]{SAvc_shifted_vc_70--60_GS}\end{subfigure}
+\hfill
+\vspace{-5cm}
+\begin{subfigure}\centering\includegraphics[width=\textwidth]{SAvc_shifted_vc_70--80_GS}\end{subfigure}
+\hfill
+\vspace{-5cm}
+\begin{subfigure}\centering\includegraphics[width=\textwidth]{SAvc_shifted_vc_70--60_L5}\end{subfigure}
+\hfill
+\vspace{-5cm}
+\begin{subfigure}\centering\includegraphics[width=\textwidth]{SAvc_shifted_vc_70--80_L5}\end{subfigure}
+\vspace{-4cm}
+\caption{Difference between the ROC curve for SA at $v_{\text{cut}}$ at the $x$th percentile during weak classifier construction and the curve using the $y$th percentile during the same for the ground state configuration. (a) $x=70$, $y=60$, $f=0$. (b) $x=70$, $y=80$, $f=0$. (c) $x=70$, $y=60$, $f=0.05$. (d) $x=70$, $y=80$, $f=0.05$.}
+\label{fig:droc_vcut6070}
+\end{figure}
+
+\section{Difference between ROC curves plots}
+\label{sec:ROC-diffs}
+We show differences between ROC curves for various algorithms in Figs.~\ref{fig:SA_DW_GS_droc}-\ref{fig:DW_GS_DW_L3_droc}. These form the basis for Fig.~4 in the main text, which gives the integral of the difference over signal efficiency. Figures~\ref{fig:SA_DW_GS_droc} and \ref{fig:SA_DW_L5_droc} show the difference in background rejection $r_B^{\text{DW}}-r_B^{\text{SA}}$ as a function of the signal efficiency for $f=0$ and $f=0.05$, respectively. For $f=0$ DW and SA are indistinguishable to within experimental error. For $f=0.05$ SA slightly outperforms DW in the range of low signal efficiencies for training sizes $\geq 5000$. The primary conclusion to draw from these plots is that SA differs from DW by roughly one standard deviation or less across the whole range, even though DW for training sizes larger than $100$ struggles to find states within less than $5\%$ of the ground state energy. This suggests a robustness of QAML, 
+which (if it generalizes to other problems) significantly improves the potential to exploit physical quantum annealers to solve machine learning problems and achieve close-to-optimal classifier performance, even in the presence of significant processor noise.
+
+Figures~\ref{fig:SA_DNN_GS_droc} and \ref{fig:SA_XGB_GS_droc} show the ROC difference between DW and DNN and DW and XGB at $f=0$, respectively. The two cases have broadly similar shapes. One clearly sees that QAML on DW outperforms DNN and XGB at the smallest training size in a statistically significant manner, but that the trend reverses for sizes $\geq 5000$. Note, that at the scale of these diagrams, the gap between $f=0$ and $f=0.05$ is negligible.
+
+Figures~\ref{fig:SA_GS_SA_L3_droc} (SA) and \ref{fig:DW_GS_DW_L3_droc} (DW) show the difference between $f=0$ and $f=0.05$. SA and DW exhibit broadly similar behavior, with an improvement with excited states of $\approx 0.4\%$ in background rejection for SA and of $\approx 0.2\%$ for DW. The improvement increases with training size and is slightly larger for SA than DW (though this difference is likely simply noise, as it is less than half the standard deviation of each distribution). It should be noted that since QAML's comparative advantage against other techniques appears to be in the realm of small training sizes. However, this is the same range where including excited states has no benefit.
+
+
+\begin{figure}[h]
+%\centering
+\begin{adjustbox}{center}
+\includegraphics[width=\paperwidth]{DW--SA_GS}
+\end{adjustbox}
+\caption{Difference between the ROC curves for SA and DW using the minimum energy returned.}
+\label{fig:SA_DW_GS_droc}
+\end{figure}
+
+\begin{figure}[h]
+%\centering
+\begin{adjustbox}{center}
+\includegraphics[width=\paperwidth]{DW--SA_L5}
+\end{adjustbox}
+\caption{Difference between the ROC curves for SA and DW using all states within $5\%$ of the minimum return energy.}
+\label{fig:SA_DW_L5_droc}
+\end{figure}
+\begin{figure}[h]
+%\centering
+\begin{adjustbox}{center}
+\includegraphics[width=\paperwidth]{DW--DNN_GS}
+\end{adjustbox}
+\caption{Difference between the ROC curves for DW and DNN using the minimum energy configuration from DW.}
+\label{fig:SA_DNN_GS_droc}
+\end{figure} 
+
+\begin{figure}[h]
+%\centering
+\begin{adjustbox}{center}
+\includegraphics[width=\paperwidth]{DW--XGB_GS}
+\end{adjustbox}
+\caption{Difference between the ROC curves for DW and XGB using the minimum energy configuration from DW.}
+\label{fig:SA_XGB_GS_droc}
+\end{figure}
+
+\begin{figure}[h]
+%\centering
+\begin{adjustbox}{center}
+\includegraphics[width=\paperwidth]{SA--SA_L5}
+\end{adjustbox}
+\caption{Difference between the ROC curves between the true ground state configuration and the $f=0.05$ composite classifier from SA.}
+\label{fig:SA_GS_SA_L3_droc}
+\end{figure}
+\clearpage
+\begin{figure}[h]
+%\centering
+\begin{adjustbox}{center}
+\includegraphics[width=\paperwidth]{DW--DW_L5}
+\end{adjustbox}
+\caption{Difference between the ROC curves between the minimum energy state returned by DW and the $f=0.05$ composite classifier from DW.}
+\label{fig:DW_GS_DW_L3_droc}
+\end{figure}
+
+
+% \bibliography{../refs}
+
+ 
+%  \end{document}

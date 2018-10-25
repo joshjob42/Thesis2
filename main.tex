@@ -1,0 +1,153 @@
+\documentclass[10pt]{report}
+
+\usepackage{subfiles}
+
+\usepackage{hyperref}
+% \usepackage{biblatex}
+\usepackage{epsfig}
+\usepackage{bm}
+\usepackage{graphicx}
+\usepackage{epstopdf}
+\usepackage{physics}
+\usepackage{siunitx}
+\usepackage{colortbl}
+\usepackage[super]{nth}
+%\usepackage{rotate}
+%\usepackage{polyglossia}
+%\usepackage{unicode-math}
+\usepackage{color}
+%\usepackage{fontspec}
+\usepackage{subfig}
+%\usepackage[affil-it]{authblk}
+%\usepackage{fixltx2e}
+%\usepackage{dblfloatfix}
+% \usepackage{bibunits}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{mathtools}
+\usepackage[left]{lineno}
+\usepackage[section]{placeins}
+
+\hypersetup{
+    colorlinks=true,       % false: boxed links; true: colored links
+    linkcolor=cyan,          % color of internal links
+    citecolor=magenta,        % color of links to bibliography
+    filecolor=magenta,      % color of file links
+    urlcolor=cyan,           % color of external links
+    runcolor=cyan
+}
+\newcommand{\red}[1]{\textcolor{red}{#1}}
+\newcommand{\blue}[1]{\textcolor{blue}{#1}}
+\newcommand{\figurewidth}{0.8 \columnwidth}
+\newcommand{\beqarr}{\begin{eqnarray}}
+\newcommand{\eeqarr}{\end{eqnarray}}
+\newcommand{\beq}{\begin{equation}}
+\newcommand{\eeq}{\end{equation}}
+\newcommand{\e}{{\text e}}
+\newcommand{\rmd}{{\text d}}
+\newcommand{\mc}{\mathcal}
+\newcommand{\JJ}[1]{{\textcolor{blue}{[#1]}}}
+\newcommand{\DL}[1]{{\textcolor{red}{[DL: #1]}}}
+\newcommand{\JR}[1]{{\textcolor{green}{[#1]}}}
+\newcommand{\MS}[1]{{\textcolor{orange}{[#1]}}}
+\newcommand{\GeV}{\giga\electronvolt}
+\newcommand{\TeV}{\tera\electronvolt}
+\newcommand{\ignore}[1]{}
+\renewcommand{\Re}{\operatorname{Re}}
+\renewcommand{\Im}{\operatorname{Im}}
+\newcommand{\byJJ}[1]{{\textcolor{magenta}{#1}}}
+\newcommand{\HI}{H_{\textrm{Ising}}}
+\newcommand{\pS}{p_{\textrm{S}}}
+\newcommand{\TTS}{\textrm{TTS}}
+\newcommand{\bes} {\begin{subequations}}
+\newcommand{\ees} {\end{subequations}}
+
+\newcommand{\eg}{$\epsilon$-greedy\xspace}
+\newcommand{\bex}{Boltzmann exploration\xspace}
+
+%\defaultfontfeatures{Ligatures=TeX,Mapping=tex-text}
+%\setmainfont[Mapping=tex-text]{Palatino}
+%\setsansfont[Scale=MatchLowercase,Mapping=tex-text]{Gill Sans}
+%\setmonofont[Scale=MatchLowercase]{Andale Mono}
+%\defaultbibliography{refs.bib}
+
+\usepackage[printwatermark]{xwatermark}
+\usepackage{xcolor}
+\usepackage{graphicx}
+\usepackage{lipsum}
+% \usepackage{subfigure}
+
+% \addbibresource{refs.bib}
+% \addbibresource{speedup_refs.bib}
+% \addbibresource{higgs_refs.bib}
+
+\author{Joshua Job}
+\title{The theory and practice of benchmarking quantum annealers}
+
+\makeatletter
+\newcommand\ackname{Acknowledgements}
+\if@titlepage
+   \newenvironment{acknowledgements}{%
+       \titlepage
+       \null\vfil
+       \@beginparpenalty\@lowpenalty
+       \begin{center}%
+         \bfseries \ackname
+         \@endparpenalty\@M
+       \end{center}}%
+      {\par\vfil\null\endtitlepage}
+\else
+   \newenvironment{acknowledgements}{%
+       \if@twocolumn
+         \section*{\abstractname}%
+       \else
+         \small
+         \begin{center}%
+           {\bfseries \ackname\vspace{-.5em}\vspace{\z@}}%
+         \end{center}%
+         \quotation
+       \fi}
+       {\if@twocolumn\else\endquotation\fi}
+\fi
+\makeatother
+
+
+%\newwatermark*[allpages,color=red!50,angle=45,scale=3,xpos=0,ypos=0]{DRAFT}
+\begin{document}
+\flushbottom
+\maketitle
+\begin{abstract}
+   I present an overview of my work on benchmarking quantum annealing devices, both the experimental work, and my work on understanding the fundamental principles and guidelines required. Here, I provide an overview of much of the work done in the field, define various forms of quantum speedup one may search for and the appropriate statistical methods for benchmarking noisy quantum systems with systematic errors dependent on many free parameters. I then apply much of this thinking in several test cases, including random Ising problems, Ising problems with planted solutions (which address a major challenge of benchmarking --- namely the difficulty of success verification for arbitrary large problems), and the training of a binary classifier in the context of a high energy physics seeking to distinguish Higgs boson decays from background processes. I then summarize the lessons learned, and present them to the community in the hopes they can improve the quality and speed of future work in this area.
+\end{abstract}
+
+\begin{acknowledgements}
+I would like to thank my advisor Professor Daniel Lidar for his support and mentorship throughout my PhD, as this thesis would not have been possible without him and his dedication to accuracy and tracking down all possible leads. I also want to thank all my collaborators, as they were critical to the completion of our research projects together. I want to thank all the teachers I've had throughout the years, who helped get me to my PhD.
+
+I also want to thank my whole family, particularly my parents who indulged my (rather intense) interests in science from a very young age. Without your support of my interests, goals, and development, I wouldn't be where or who I am.
+
+To my friends, who I will not name for fear of offending anyone, thank you for serving as walls to bounce ideas off of, and for many a relevant and utterly irrelevant discussion.
+
+Finally, I'd like to thank all the brilliant physicists and scientists about whom and about whose work I read about in books and all the authors of science fiction that collectively inspired my imagination as a child, and who continue to do so today.
+\end{acknowledgements}
+\tableofcontents
+\listoffigures
+\listoftables
+
+\chapter[Introduction]{Introduction}\label{ch:intro}
+\subfile{chapters/Introduction/intro}
+\chapter[Speedup]{Defining and detecting quantum speedup}\label{ch:speedup}
+\subfile{chapters/Speedup/speedup}
+\chapter[Benchmarking]{Benchmarking or: How I learned to stop worrying and love Bayesian nonparametrics and optional stopping}\label{ch:benchmarking}
+\subfile{chapters/Benchmarking/benchmarking}
+\chapter[Planted]{Probing for quantum speedup in spin glass problems with planted solutions}\label{ch:planted}
+\subfile{chapters/Planted/planted-final-HFS-updated}
+\chapter[Higgs]{Solving a Higgs optimization problem with quantum annealing for machine learning}\label{ch:higgs}
+\subfile{chapters/Higgs/a_higgs}
+% \chapter[Test-driving]{Test-driving $1000$ qubits}\label{ch:testdriving}
+% \subfile{chapters/Test-driving/Test-driving_1000_qubits}
+\chapter[Conclusion]{Conclusions: Principles of benchmarking}\label{ch:conclusion}
+\subfile{chapters/Conclusion/conclusion.tex}
+\appendix[MAB]{Gauge selection as a multi-armed bandit problem}\label{app:MAB}
+\bibliographystyle{Science}
+\bibliography{testdriving_refs.bib} %refs.bib,speedup_refs.bib,higgs_refs.bib}
+\end{document}

@@ -1,0 +1,14 @@
+\BOOKMARK [0][-]{section*.2}{Test-driving 1000 qubits}{}% 2
+\BOOKMARK [1][-]{section*.1}{Abstract}{section*.2}% 1
+\BOOKMARK [1][-]{section*.3}{Introduction}{section*.2}% 3
+\BOOKMARK [1][-]{section*.4}{Quantum Validation Testing}{section*.2}% 4
+\BOOKMARK [2][-]{section*.5}{Types of validation: proof of quantumness, quantum supremacy, speedup-inferred quantumness, and classical model rejection}{section*.4}% 5
+\BOOKMARK [2][-]{section*.6}{Experimental implementations of quantum validation tests}{section*.4}% 6
+\BOOKMARK [1][-]{section*.7}{Benchmarking}{section*.2}% 7
+\BOOKMARK [2][-]{section*.8}{Solvers for comparison}{section*.7}% 8
+\BOOKMARK [2][-]{section*.9}{The state of benchmarking}{section*.7}% 9
+\BOOKMARK [2][-]{section*.10}{Lessons}{section*.7}% 10
+\BOOKMARK [1][-]{section*.11}{Error Correction}{section*.2}% 11
+\BOOKMARK [1][-]{section*.12}{Conclusion}{section*.2}% 12
+\BOOKMARK [1][-]{section*.13}{Acknowledgments}{section*.2}% 13
+\BOOKMARK [1][-]{section*.14}{References}{section*.2}% 14

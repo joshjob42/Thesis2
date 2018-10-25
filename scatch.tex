@@ -1,0 +1,17 @@
+For the annealers, the time to solution can be trivially found by applying a function $T(p)$ to the probability of success $p$. In the main text, the $T(p)$ used is the time required to find the ground state at least once with a probability $0.99$:
+%
+\beq
+T(p)=\frac{\log (1 - 0.99)}{\log (1 - p)}\ ,
+\eeq
+%
+For the purposes of the discussion below this function can in fact be totally arbitrary and may depend on system size.
+
+We imagine our annealing algorithms as essentially a sequence of binary trials, where each run is either a success or a failure. Because we do not have infinitely many observations, there is some uncertainty in our estimate of the true probability of success of our binary trial. Since our data was collected as a series of $r$ independent trials (which varies by solver) for each solver and instance, the annealers' results are described by a binomial distribution.
+
+In order to determine what the probability of success is, we assumed a Bayesian stance --- we do not know what the probability is currently and so must assume some prior distribution for our belief, and will update our belief based on the evidence. Which prior should we choose? The obvious choice is a $\beta$ distribution as it is the conjugate prior for the binomial distribution, giving us a closed form for our posterior distribution \cite{fink:97}. We have chosen the Jeffreys prior for the binomial distribution, $\beta(\frac12,\frac12)$ for two reasons: 1) It is invariant under reparameterization of the parameter space, 2) it is the prior which maximizes the mutual information between the sample and the parameter over all continuous, positive priors. In other words, it yields the same prior no matter how we parameterize our space and $\beta(\frac12,\frac12)$ maximizes the amount of information gained by learning the data. The other obvious prior is the uniform distribution or $\beta(1,1)$ but it is not invariant under reparameterization and learns less from the data than $\beta(\frac12,\frac12)$ \cite{clarke:94}. For these reasons, $\beta(\frac12,\frac12)$ tends to be the standard choice of prior for binomial distributions \cite{bernardo:11}.
+
+After Bayesian updating by our prior, our probability distribution for $p$ is $\beta(x+\frac12,r-x+\frac12)$, where $x$ is the number of successes and $r$ the number of runs.
+
+There may be a concern that our solvers do not fully conform to a binomial distribution: if there are correlations between successive runs then our empirical success probability $\frac xr$ would be inflated for hard problems. However, since we did not observe an advantage for the DW2 over the classical algorithms for the hardest problems, and the only potential advantage we observed is for the easier problems at high clause density, we do not believe this issue is affecting our conclusions.
+
+Thus, for all instances $\mathcal{I}_i \in \{\mathcal{I}\}$ in a particular range of interest (for example, a particular problem size and clause density), we have some distribution $\beta_i$ for the probability of success for that instance. To generate our error bars we used the bootstrap method, which we describe next.
